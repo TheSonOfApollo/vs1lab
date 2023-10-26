@@ -110,6 +110,7 @@ a {
 /* ### TODO ### Styles for Header Component */
 
 .header {
+  grid-area: header;
   display: flex;
   background-color: var(--background-color);
   justify-content: space-around;
@@ -126,25 +127,10 @@ a {
   height: auto;
 }
 
-/*
-flex grow causes disaligment of elements 
-
-h1 {
-  flex-grow: 2;
-  align-items: center;
-}
-
-*/
-
-
 
 /* ### TODO ### Styles for Main Component */
 
-.main {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-evenly;
-}
+/* ... your code here ... */
 
 
 /* ### TODO ### Styles for Tagging component */
@@ -159,15 +145,7 @@ h1 {
 
 /* ### TODO ### Styles for Footer Component */
 
-.footer {
-  display: flex;
-  background-color: var(--background-color);
-  padding: 4%;
-  border-top: solid;
-  border-color: var(--border-color);
-  border-width: 0.2em;
-  margin-top: 4%;
-}
+/* ... your code here ... */
 
 
 /* ### TODO ### Media Queries */
