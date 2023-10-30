@@ -275,4 +275,8 @@ ul li{
 
 /* ### TODO ### Media Queries */
 
-/* ... your code here ... */
+@media only screen and (max-width: 768px) {
+  [class*="col-"] {
+    width: 100%;
+  }
+}
