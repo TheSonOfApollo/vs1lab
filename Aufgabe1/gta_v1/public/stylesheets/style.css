@@ -57,7 +57,7 @@ a {
   justify-content: space-between;
   flex: 1;
 }
-
+/*
 .col-1 {
   width: calc(8.33% - 1rem);
 }
@@ -105,7 +105,7 @@ a {
 .col-12 {
   width: calc(100% - 1rem);
 }
-
+  */
 
 /* ### TODO ### Styles for Header Component */
 
