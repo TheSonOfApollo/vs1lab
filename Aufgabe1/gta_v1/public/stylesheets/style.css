@@ -166,6 +166,7 @@ a {
 }
 
 .discovery__map {
+  margin-left: 9%;
   flex: 1;
 }
 
