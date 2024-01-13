@@ -129,11 +129,32 @@ function updateUI(searchResults) {
     resultsContainer.innerHTML = '';
 
     // Display the new search results
-    searchResults.forEach(geotag => {
+    searchResults.forEach(async (geotag) => {
         const listItem = document.createElement('li');
         listItem.textContent = `${geotag.Name} (${geotag.Latitude}, ${geotag.Longitude}) ${geotag.Hashtag}`;
         resultsContainer.appendChild(listItem);
+
+        // Update the map with the GeoTag array for each result
+        await updateMap(geotag.Latitude, geotag.Longitude);
     });
+}
+
+// Function to update the map with a specific location
+async function updateMap(latitude, longitude) {
+    // Fetch existing coordinates from hidden fields
+    const latField = document.getElementById('lat');
+    const lonField = document.getElementById('lon');
+    const tagsAttribute = document.getElementById("mapView").getAttribute("data-tags");
+    const taglist = JSON.parse(tagsAttribute);
+
+    // Update the map with the GeoTag array
+    const mapManager = new MapManager('urzLls1AwR1SUp0lsMiK6OwpoBB0Dy3b');
+    const mapUpdate = mapManager.getMapUrl(latitude, longitude, taglist);
+    document.getElementById("mapView").src = mapUpdate;
+
+    // Update hidden fields with new coordinates
+    latField.value = latitude;
+    lonField.value = longitude;
 }
 
 
