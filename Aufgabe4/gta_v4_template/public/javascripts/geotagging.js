@@ -70,7 +70,7 @@ async function handleTagFormSubmit(event) {
 
     // Extract form data using FormData
     const formData = new FormData(form);
-    
+
     // Convert FormData to a plain object
     const data = {};
     formData.forEach((value, key) => {
@@ -88,22 +88,39 @@ async function handleTagFormSubmit(event) {
         console.log('Handling new GeoTag:', newGeoTag);
     } catch (error) {
         // Handle errors if needed
+        console.error('Error handling Tag form submission:', error.message);
     }
 }
 
-// Function to handle the search results and update the UI
-async function handleSearchResults(searchTerm) {
-    try {
-        const searchResults = await searchGeoTagsAsync(searchTerm);
 
-        // Update the UI with the search results
-        updateUI(searchResults);
+// Function to handle the submission of the Discovery form
+async function handleDiscoveryFormSubmit() {
+                const form = document.getElementById('discoveryFilterForm');
 
-    } catch (error) {
-        console.error('Error handling search results:', error.message);
-        // Handle errors if needed
+        // Extract form data using FormData
+        const formData = new FormData(form);
+
+        // Convert FormData to a plain object
+        const data = {};
+        formData.forEach((value, key) => {
+            data[key] = value;
+        });
+
+        try {
+            // Make an asynchronous GET request to search for GeoTags
+            const searchResults = await searchGeoTagsAsync(data.SearchTerm || '');
+
+            // Update the UI with the search results
+            updateUI(searchResults);
+
+            // Update the map with the new GeoTags
+            updateLocation();
+
+        } catch (error) { 
+            // Handle errors if needed
+            console.error('Error handling Discovery form submission:', error.message);
+        }
     }
-}
 
 // Function to update the UI with the search results
 function updateUI(searchResults) {
@@ -124,9 +141,10 @@ function updateUI(searchResults) {
 
 // Attach the form submission handler to the Discovery form
 const discoveryForm = document.getElementById('discoveryFilterForm');
-discoveryForm.addEventListener('submit', () => {
-    console.log('Discovery form submitted. Calling updateLocation...');
-    updateLocation();
+discoveryForm.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    console.log('Discovery form submitted. Calling handleDiscoveryFormSubmit...');
+    await handleDiscoveryFormSubmit();
 });
 
 
@@ -136,47 +154,56 @@ discoveryForm.addEventListener('submit', () => {
  * A function to retrieve the current location and update the page.
  * It is called once the page has been fully loaded.
  */
-function updateLocation() {
+async function updateLocation() {
     // Fetch existing coordinates from hidden fields
     const latField = document.getElementById('lat');
     const lonField = document.getElementById('lon');
     const latitude = latField.value;
     const longitude = lonField.value;
 
-    // Retrieve tags from the data-tags attribute
-    const tagsAttribute = document.getElementById("mapView").getAttribute("data-tags");
-    const taglist = JSON.parse(tagsAttribute);
+    try {
+        // Fetch the latest GeoTags
+        const latestGeoTags = await searchGeoTagsAsync('');
 
-    //console.log('Taglist:', taglist); // Log for debugging
-
-    // Check if valid coordinates are already available
-    if (latitude && longitude) {
-        // Use existing coordinates for map and update hidden fields
-        const mapManager = new MapManager('urzLls1AwR1SUp0lsMiK6OwpoBB0Dy3b');
-
-        // Update the map with the GeoTag array
-        const mapUpdate = mapManager.getMapUrl(latitude, longitude, taglist);
-        document.getElementById("mapView").src = mapUpdate;
-    } else {
-        // No valid coordinates, use Geolocation API
-        LocationHelper.findLocation((location) => {
-            //console.log('Geolocation API Result:', location);
-            // Update hidden fields with new coordinates
-            latField.value = location.latitude;
-            lonField.value = location.longitude;
-            //console.log('Updated Latitude:', location.latitude, 'Updated Longitude:', location.longitude);
-
-            // Update the map with the updated GeoTag array
+        // Check if valid coordinates are already available
+        if (latitude && longitude) {
+            // Use existing coordinates for map and update hidden fields
             const mapManager = new MapManager('urzLls1AwR1SUp0lsMiK6OwpoBB0Dy3b');
-            const newGeoTag = { Latitude: location.latitude, Longitude: location.longitude, Name: "YourLocation" };
-            taglist.push(newGeoTag);
 
-            const mapUpdate = mapManager.getMapUrl(location.latitude, location.longitude, taglist);
+            // Update the map with the GeoTag array
+            const mapUpdate = mapManager.getMapUrl(latitude, longitude, latestGeoTags);
             document.getElementById("mapView").src = mapUpdate;
-        });
+        } else {
+            // No valid coordinates, use Geolocation API
+            LocationHelper.findLocation((location) => {
+                // Update hidden fields with new coordinates
+                latField.value = location.latitude;
+                lonField.value = location.longitude;
+
+                // Update the map with the updated GeoTag array
+                const mapManager = new MapManager('urzLls1AwR1SUp0lsMiK6OwpoBB0Dy3b');
+                const newGeoTag = { Latitude: location.latitude, Longitude: location.longitude, Name: "YourLocation" };
+                latestGeoTags.push(newGeoTag);
+
+                const mapUpdate = mapManager.getMapUrl(location.latitude, location.longitude, latestGeoTags);
+                document.getElementById("mapView").src = mapUpdate;
+
+                // Now that the map is updated, update the UI
+                updateUI(latestGeoTags);
+            });
+        }
+    } catch (error) {
+        console.error('Error updating location:', error.message);
     }
 }
 
+
+// Add an event listener to handle the 'load' event
+window.addEventListener('load', async () => {
+    console.log('Page loaded. Calling updateLocation...');
+    // Fetch and update location on page load
+    await updateLocation();
+});
 
 window.addEventListener('load', () => {
     console.log('Page loaded. Calling updateLocation...');
