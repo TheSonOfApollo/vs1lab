@@ -81,11 +81,12 @@ async function handleTagFormSubmit(event) {
         // Make an asynchronous POST request to add a new GeoTag
         const newGeoTag = await addGeoTagAsync(data);
 
-        // Update the UI with the search results based on the search term
-        await handleSearchResults(data.SearchTerm || '');
+        // Fetch latest GeoTags after updating the location
+        const searchResults = await searchGeoTagsAsync(data.SearchTerm || '');
+        updateUI(searchResults);
 
-        // Handle the new GeoTag as needed (update UI, etc.)
-        console.log('Handling new GeoTag:', newGeoTag);
+        // Update the location and map with the latest GeoTags
+        updateLocation();
     } catch (error) {
         // Handle errors if needed
     }
