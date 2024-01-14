@@ -38,6 +38,7 @@ const geoTagStore = GeoTagStore.getInstance();
  * As response, the ejs-template is rendered without geotag objects.
  */
 
+/*
 router.get('/', (req, res) => {
   const currentLat = req.body.Latitude || ''; 
   const currentLon = req.body.Longitude || ''; 
@@ -49,7 +50,7 @@ router.get('/', (req, res) => {
 
   // render the template with current cordinates, if available
 });
-
+*/
 // API routes (A4)
 
 /**
@@ -71,7 +72,7 @@ router.get('/api/geotags', (req, res) => {
   const keyword = req.query.SearchTerm || ''; 
   const taglist = geoTagStore.searchNearbyGeoTags(currentLat, currentLon, 100000000, keyword); // default radius = 100
   //console.log('taglist:', taglist);
-  console.log('\nkeyword:', keyword); 
+  console.log('\nkeyword:', keyword);
   //console.log('\nMatching geotags:', taglist); 
   //res.render('index', { taglist, currentLat, currentLon, keyword}); 
   res.json(taglist); 
@@ -97,7 +98,7 @@ router.post('/api/geotags', (req, res) => {
   const curHash = req.body.HashtagLocation || '';  
   // extract data from form fields (curName -> current Name)
   const newTag = new GeoTag(curLat, curLon, curName, curHash); 
-  geoTagStore.addGeoTag(newTag); 
+  geoTagStore.addGeoTagAsync(newTag); 
   const newURL = `/api/geotags/${encodeURIComponent(newTag.Name)}`; 
     
   res.status(201).location(newURL).json(newTag);  

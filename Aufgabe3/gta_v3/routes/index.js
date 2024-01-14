@@ -43,13 +43,13 @@ const geoTagStore = GeoTagStore.getInstance();
 
 // TODO: extend the following route example if necessary
 router.get('/', (req, res) => {
-  const currentLat = req.body.Latitude || ''; 
-  const currentLon = req.body.Longitude || ''; 
+  const currentLat = req.body.Latitude || '';
+  const currentLon = req.body.Longitude || '';
   //const geoTagStore = new GeoTagStore(); // create instance of GeoTagStore
   const taglist = geoTagStore.getNearbyGeoTags(currentLat, currentLon, 1000000); // default radius = 100
   //const taglist = geoTagStore.getAllGeoTags(); 
   console.log('taglist:', taglist);
-  res.render('index', { taglist, currentLat, currentLon}); 
+  res.render('index', { taglist, currentLat, currentLon});
 
   // render the template with current cordinates, if available
 });
