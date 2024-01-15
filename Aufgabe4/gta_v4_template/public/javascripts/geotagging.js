@@ -42,9 +42,9 @@ async function addGeoTagAsync(data) {
 }
 
 // Function to make an asynchronous GET request to search for GeoTags
-async function searchGeoTagsAsync(searchTerm) {
+async function searchGeoTagsAsync(searchTerm, pageNumber = 1) {
     try {
-        const response = await fetch(`/api/geotags?SearchTerm=${encodeURIComponent(searchTerm)}`);
+        const response = await fetch(`/api/geotags/page/${pageNumber}?SearchTerm=${encodeURIComponent(searchTerm)}`);
 
         if (!response.ok) {
             throw new Error('Failed to search for GeoTags');
@@ -120,6 +120,7 @@ async function handleDiscoveryFormSubmit() {
             // Handle errors if needed
             console.error('Error handling Discovery form submission:', error.message);
         }
+        await loadPage(1); // Lädt die erste Seite, wenn das Suchformular gesendet wird
     }
 
 // Function to update the UI with the search results
@@ -197,16 +198,37 @@ async function updateLocation() {
     }
 }
 
+let currentPage = 1;
+
+async function loadPage(pageNumber) {
+  if (pageNumber < 1) return;
+  const response = await fetch(`/api/geotags/page/${pageNumber}`);
+  if (!response.ok) {
+    console.error('Failed to load GeoTags page');
+    return;
+  }
+
+  const paginatedGeoTags = await response.json();
+  updateUI(paginatedGeoTags);
+
+  currentPage = pageNumber;
+  document.getElementById('currentPage').innerText = `Page ${currentPage}`;
+  document.getElementById('prevBtn').disabled = currentPage === 1;
+  // Hier kann die Logik für die Aktivierung/Deaktivierung des 'Next'-Buttons basierend auf der Anzahl der Seiten eingefügt werden.
+}
+
 
 // Add an event listener to handle the 'load' event
 window.addEventListener('load', async () => {
     console.log('Page loaded. Calling updateLocation...');
     // Fetch and update location on page load
     await updateLocation();
+    await loadPage(1);
 });
 
 window.addEventListener('load', () => {
     console.log('Page loaded. Calling updateLocation...');
     updateLocation();
+    loadPage(1);
 });
 

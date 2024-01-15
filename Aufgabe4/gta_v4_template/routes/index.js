@@ -187,5 +187,15 @@ router.delete('/api/geotags/:keyword', (req, res) => {
   res.status(200).json({ message: 'Tag deleted...'});
 });
 
+router.get('/api/geotags/page/:pageNumber', (req, res) => {
+  const pageNumber = parseInt(req.params.pageNumber);
+  const pageSize = 7; // Beispiel: 7 Einträge pro Seite
+  const startIndex = (pageNumber - 1) * pageSize;
+  const endIndex = startIndex + pageSize;
+  const paginatedTaglist = geoTagStore.getAllGeoTags().slice(startIndex, endIndex);
+
+  res.json(paginatedTaglist);
+});
+
 
 module.exports = router;

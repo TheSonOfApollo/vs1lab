@@ -165,6 +165,27 @@ a {
   margin-right: 4%;
 }
 
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 1rem;
+}
+
+.pagination button {
+  background-color: var(--background-color);
+  border: solid 1px;
+  border-color: var(--border-color);
+  font-weight: bold;
+  padding: 0.5rem 1rem;
+  margin: 0 0.5rem;
+  cursor: pointer;
+}
+
+.pagination span {
+  margin: 0 0.5rem;
+}
+
 .discovery__map {
   flex: 1;
   display: flex;
