@@ -87,13 +87,13 @@
                             <li><%= gtag.Name %> ( <%= gtag.Latitude %>, <%= gtag.Longitude %>) <%= gtag.Hashtag %> </li>
                         <% }); %>                        
                     </ul>
-                </div>
 
-                <div class="pagination">
-                    <button onclick="loadPage(1)">First</button>
-                    <button onclick="loadPage(currentPage - 1)" id="prevBtn">Previous</button>
-                    <span id="currentPage">Page 1</span>
-                    <button onclick="loadPage(currentPage + 1)" id="nextBtn">Next</button>
+                    <div class="pagination">
+                        <button onclick="loadPage(1)">First</button>
+                        <button onclick="loadPage(currentPage - 1)" id="prevBtn">Previous</button>
+                        <span id="currentPage">Page 1</span>
+                        <button onclick="loadPage(currentPage + 1)" id="nextBtn">Next</button>
+                    </div>
                 </div>
 
                 <div class="discovery__map">
