@@ -157,7 +157,7 @@ router.put('/api/geotags/:Id', (req, res) => {
   // extract data from form fields (curName -> current Name)
 
   // Remove existing GeoTag
-  geoTagStore.removeGeoTag(Id);
+  geoTagStore.removeGeoTag(curId);
 
   // Create new GeoTag
   const newTag = new GeoTag(curLat, curLon, curName, curHash, curId);

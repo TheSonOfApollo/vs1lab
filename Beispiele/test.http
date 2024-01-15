@@ -27,7 +27,7 @@ DELETE http://localhost:3000/api/geotags/101
 
 ###
 
-PUT http://localhost:3000/api/geotags/test
+PUT http://localhost:3000/api/geotags/100
 Content-Type: application/json
 
 {
