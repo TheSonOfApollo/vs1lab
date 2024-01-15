@@ -27,6 +27,7 @@ const GeoTag = require('../models/geotag');
 // eslint-disable-next-line no-unused-vars
 const GeoTagStore = require('../models/geotag-store');
 const geoTagStore = GeoTagStore.getInstance(); 
+let Id = 111; 
 // App routes (A3)
 
 /**
@@ -95,8 +96,10 @@ router.post('/api/geotags', (req, res) => {
   const curLon = req.body.Longitude || ''; 
   const curName = req.body.NameLocation || ''; 
   const curHash = req.body.HashtagLocation || '';  
+
   // extract data from form fields (curName -> current Name)
-  const newTag = new GeoTag(curLat, curLon, curName, curHash); 
+  const newTag = new GeoTag(curLat, curLon, curName, curHash, Id);
+  Id++; 
   geoTagStore.addGeoTag(newTag); 
   const newURL = `/api/geotags/${encodeURIComponent(newTag.Name)}`; 
     
@@ -145,19 +148,19 @@ router.get('/api/geotags/:keyword', (req, res) => {
  */
 
 // TODO: ... your code here ...
-router.put('/api/geotags/:keyword', (req, res) => {
+router.put('/api/geotags/:Id', (req, res) => {
   const curLat = req.body.Latitude || '';
   const curLon = req.body.Longitude || '';
   const curName = req.body.NameLocation || '';
   const curHash = req.body.HashtagLocation || '';
-  const keyword = req.params.keyword || '';
+  const curId = req.params.Id || '';
   // extract data from form fields (curName -> current Name)
 
   // Remove existing GeoTag
-  geoTagStore.removeGeoTag(keyword);
+  geoTagStore.removeGeoTag(Id);
 
   // Create new GeoTag
-  const newTag = new GeoTag(curLat, curLon, curName, curHash);
+  const newTag = new GeoTag(curLat, curLon, curName, curHash, curId);
   geoTagStore.addGeoTag(newTag);
 
   //const newURL = `/api/geotags/${encodeURIComponent(newTag.Name)}`;
@@ -181,9 +184,9 @@ router.put('/api/geotags/:keyword', (req, res) => {
  */
 
 // TODO: ... your code here ...
-router.delete('/api/geotags/:keyword', (req, res) => {
-  const keyword = req.params.keyword || ''; 
-  geoTagStore.removeGeoTag(keyword); 
+router.delete('/api/geotags/:Id', (req, res) => {
+  const Id = req.params.Id || ''; 
+  geoTagStore.removeGeoTag(Id); 
   res.status(200).json({ message: 'Tag deleted...'});
 });
 

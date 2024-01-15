@@ -48,7 +48,7 @@ class InMemoryGeoTagStore{
 
     /**
      * Add a geotag to the store.
-     */
+     */ 
     addGeoTag(geotag) {
         this.#GeoTagStore.push(geotag);
     }
@@ -56,8 +56,8 @@ class InMemoryGeoTagStore{
     /**
      * Delete geo-tags from the store by name.
      */
-    removeGeoTag(name) {
-        this.#GeoTagStore = this.#GeoTagStore.filter(tag => tag.Name !== name);
+    removeGeoTag(id) {
+        this.#GeoTagStore = this.#GeoTagStore.filter(tag => tag.Id !== id);
     }
 
 
@@ -121,10 +121,13 @@ class InMemoryGeoTagStore{
         return distance;
     }
 
+
     populate() {
+        let id = 100; 
         GeoTagExamples.exampleTagList.forEach(tag =>{
-            const newTag = new GeoTag(tag[1], tag[2], tag[0], tag[3]);
+            const newTag = new GeoTag(tag[1], tag[2], tag[0], tag[3], id);
             this.addGeoTag(newTag);
+            id++; 
             //console.log('Added GeoTag:', newTag); 
         }); 
     }

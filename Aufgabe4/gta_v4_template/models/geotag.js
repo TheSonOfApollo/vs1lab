@@ -12,19 +12,20 @@
 class GeoTag {
 
     // TODO: ... your code here ...
-    constructor (Latitude, Longitude, Name, Hashtag) {
+    constructor (Latitude, Longitude, Name, Hashtag, Id) {
 
         this.Latitude = Latitude; 
         this.Longitude = Longitude; 
         this.Name = Name; 
         this.Hashtag = Hashtag;  
+        this.Id = Id; 
     }
 }
 
 const geoTags = {}; // newly created geoTags are stored here 
 
-function createGeoTag(Latitude, Longitude, Name, Hashtag) {
-    const geoTag = new GeoTag(Latitude, Longitude, Name, Hashtag); 
+function createGeoTag(Latitude, Longitude, Name, Hashtag, Id) {
+    const geoTag = new GeoTag(Latitude, Longitude, Name, Hashtag, Id); 
     geoTags[Name] = geoTag; // create a new GeoTag with Name == parameter "Name"
 }
 

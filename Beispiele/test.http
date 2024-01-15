@@ -4,24 +4,28 @@
 //GET http://localhost:3000/
 // ^^ main website ^^
 
-
-//GET http://localhost:3000/api/geotags?SearchTerm=iwi
+###
+GET http://localhost:3000/api/geotags
 //GET http://localhost:3000/api/geotags?Latitude=49.03948
 //GET http://localhost:3000/api/geotags?Latitude=49.03948&SearchTerm=li
 // ^^ tests for query parameters ^^
 
+
+###
 GET http://localhost:3000/api/geotags?SearchTerm=test&Latitude=&Longitude=
 //GET http://localhost:3000/api/geotags/Test
 // ^^ idem, after creation of test GeoTag with POST* (new URL in Header>>Location) ^^
-
+###
 
 //GET http://localhost:3000/api/geotags/CaStLe
 //GET http://localhost:3000/api/geotags/sight
 // ^^ tests for id(keyword) in path '/api/geotags/:id' 
 
 //DELETE http://localhost:3000/api/geotags/test
-//DELETE http://localhost:3000/api/geotags/generic
+DELETE http://localhost:3000/api/geotags/111
 // ^^ test DELETE HTTP-request ^^ 
+
+###
 
 PUT http://localhost:3000/api/geotags/test
 Content-Type: application/json
@@ -33,8 +37,7 @@ Content-Type: application/json
     "HashtagLocation": "#Modified"
 }
 
-
-
+### 
 
 // *
 POST http://localhost:3000/api/geotags
