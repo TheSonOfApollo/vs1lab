@@ -185,8 +185,8 @@ router.put('/api/geotags/:Id', (req, res) => {
 
 // TODO: ... your code here ...
 router.delete('/api/geotags/:Id', (req, res) => {
-  const Id = req.params.Id || ''; 
-  geoTagStore.removeGeoTag(Id); 
+  const tagId = req.params.Id || ''; 
+  geoTagStore.removeGeoTag(tagId); 
   res.status(200).json({ message: 'Tag deleted...'});
 });
 

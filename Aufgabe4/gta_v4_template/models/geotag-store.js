@@ -57,7 +57,8 @@ class InMemoryGeoTagStore{
      * Delete geo-tags from the store by name.
      */
     removeGeoTag(id) {
-        this.#GeoTagStore = this.#GeoTagStore.filter(tag => tag.Id !== id);
+        console.log('Removing geotag with Id:', id);
+        this.#GeoTagStore = this.#GeoTagStore.filter(tag => tag.Id !== Number(id));
     }
 
 

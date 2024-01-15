@@ -4,7 +4,7 @@
 //GET http://localhost:3000/
 // ^^ main website ^^
 
-###
+### 
 GET http://localhost:3000/api/geotags
 //GET http://localhost:3000/api/geotags?Latitude=49.03948
 //GET http://localhost:3000/api/geotags?Latitude=49.03948&SearchTerm=li
@@ -22,7 +22,7 @@ GET http://localhost:3000/api/geotags?SearchTerm=test&Latitude=&Longitude=
 // ^^ tests for id(keyword) in path '/api/geotags/:id' 
 
 //DELETE http://localhost:3000/api/geotags/test
-DELETE http://localhost:3000/api/geotags/111
+DELETE http://localhost:3000/api/geotags/101
 // ^^ test DELETE HTTP-request ^^ 
 
 ###
