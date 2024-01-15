@@ -27,12 +27,17 @@ async function addGeoTagAsync(data) {
 
         const newGeoTag = await response.json();
         console.log('New GeoTag:', newGeoTag);
-        // Update location after adding a new GeoTag
-        updateLocation();
+
         // Fetch latest GeoTags after updating the location
-        await searchGeoTagsAsync(data.SearchTerm || data.SearchTerm === '' ? data.SearchTerm : '');
+        const latestGeoTags = await searchGeoTagsAsync('');
 
+        // Update the map with the GeoTag array
+        const mapManager = new MapManager('urzLls1AwR1SUp0lsMiK6OwpoBB0Dy3b');
+        const mapUpdate = mapManager.getMapUrl(data.Latitude, data.Longitude, latestGeoTags);
+        document.getElementById("mapView").src = mapUpdate;
 
+        // Update the UI with the latest GeoTags
+        updateUI(latestGeoTags);
 
         return newGeoTag;
     } catch (error) {
@@ -40,6 +45,7 @@ async function addGeoTagAsync(data) {
         throw error;
     }
 }
+
 
 // Function to make an asynchronous GET request to search for GeoTags
 async function searchGeoTagsAsync(searchTerm) {
@@ -165,30 +171,30 @@ async function updateLocation() {
         // Fetch the latest GeoTags
         const latestGeoTags = await searchGeoTagsAsync('');
 
-        // Check if valid coordinates are already available
+// Check if valid coordinates are already available
         if (latitude && longitude) {
-            // Use existing coordinates for map and update hidden fields
-            const mapManager = new MapManager('urzLls1AwR1SUp0lsMiK6OwpoBB0Dy3b');
+        // Use existing coordinates for map and update hidden fields
+        const mapManager = new MapManager('urzLls1AwR1SUp0lsMiK6OwpoBB0Dy3b');
 
-            // Update the map with the GeoTag array
+                    // Update the map with the GeoTag array
             const mapUpdate = mapManager.getMapUrl(latitude, longitude, latestGeoTags);
             document.getElementById("mapView").src = mapUpdate;
         } else {
-            // No valid coordinates, use Geolocation API
+// No valid coordinates, use Geolocation API
             LocationHelper.findLocation((location) => {
-                // Update hidden fields with new coordinates
+// Update hidden fields with new coordinates
                 latField.value = location.latitude;
                 lonField.value = location.longitude;
 
                 // Update the map with the updated GeoTag array
                 const mapManager = new MapManager('urzLls1AwR1SUp0lsMiK6OwpoBB0Dy3b');
-                const newGeoTag = { Latitude: location.latitude, Longitude: location.longitude, Name: "YourLocation" };
+            const newGeoTag = { Latitude: location.latitude, Longitude: location.longitude, Name: "YourLocation" };
                 latestGeoTags.push(newGeoTag);
 
                 const mapUpdate = mapManager.getMapUrl(location.latitude, location.longitude, latestGeoTags);
-                document.getElementById("mapView").src = mapUpdate;
-
-                // Now that the map is updated, update the UI
+            document.getElementById("mapView").src = mapUpdate;
+                        
+// Now that the map is updated, update the UI
                 updateUI(latestGeoTags);
             });
         }
