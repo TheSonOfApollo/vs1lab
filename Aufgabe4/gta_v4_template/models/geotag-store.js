@@ -45,6 +45,10 @@ class InMemoryGeoTagStore{
         return this.#GeoTagStore; 
     }
 
+    getGeoTag(id) {
+        return this.#GeoTagStore = this.#GeoTagStore.find(tag => tag.Id === Number(id));    
+    }
+
 
     /**
      * Add a geotag to the store.

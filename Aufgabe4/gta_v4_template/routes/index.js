@@ -120,10 +120,10 @@ router.post('/api/geotags', (req, res) => {
  */
 
 // TODO: ... your code here ...
-router.get('/api/geotags/:keyword', (req, res) => {
+router.get('/discovery', (req, res) => {
   const currentLat = req.query.Latitude || ''; 
   const currentLon = req.query.Longitude || ''; 
-  const keyword = req.params.keyword || ''; 
+  const keyword = req.query.keyword || ''; 
   const taglist = geoTagStore.searchNearbyGeoTags(currentLat, currentLon, 100000000, keyword); // default radius = 100
   //console.log('taglist:', taglist);
   console.log('\nkeyword:', keyword); 
@@ -132,6 +132,17 @@ router.get('/api/geotags/:keyword', (req, res) => {
   res.json(taglist); 
 });
 
+router.get('/api/geotags/:Id', (req, res) => {
+  const curId = req.params.Id || ''; 
+  //const taglist = geoTagStore.getGeoTag(curId);
+  const tag = geoTagStore.getGeoTag(curId);
+
+  //console.log('taglist:', taglist);  
+  console.log('\nId:', curId); 
+  console.log('\nMatching geotags:', tag); 
+  //res.render('index', { taglist, currentLat, currentLon, keyword}); 
+  res.json(tag); 
+});
 
 /**
  * Route '/api/geotags/:id' for HTTP 'PUT' requests.
