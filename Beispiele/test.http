@@ -12,7 +12,7 @@ GET http://localhost:3000/api/geotags/105
 
 
 ###
-GET http://localhost:3000/api/geotags?SearchTerm=test&Latitude=&Longitude=
+GET http://localhost:3000/discovery?SearchTerm=iwi&Latitude=&Longitude=
 //GET http://localhost:3000/api/geotags/Test
 // ^^ idem, after creation of test GeoTag with POST* (new URL in Header>>Location) ^^
 ###
